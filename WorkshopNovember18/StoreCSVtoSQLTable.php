@@ -27,9 +27,14 @@ function DisplayContents($n,$c,$fields){
 }
 
 $file = $_POST['file'];
-$end = strpos($file,'.');
-$name = substr($file,0,$end);
-$infile = fopen($file,"r");
+$target_file = $_FILES["file_to_upload"]["name"];
+move_uploaded_file($_FILES["file_to_upload"]["name"], $target_file);
+
+$end = strpos($target_file,'.');
+$name = substr($target_file,0,$end);
+echo "target file is " . $target_file . "<br>";
+
+$infile = fopen($target_file,"r");
 $data = fgetcsv($infile);
 $fields = $data;
 
@@ -55,7 +60,7 @@ $ncols = sizeof($data);
 			}
 		}
 		echo $sql . "<br>";
-		//$result = $conn->query($sql);
+		$result = $conn->query($sql);
 	}
 	fclose($infile);
 
